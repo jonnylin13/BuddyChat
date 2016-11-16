@@ -32,6 +32,7 @@ public class BuddyChatPlugin extends JavaPlugin {
 	
 	public void onDisable() {
 		
+		this.cDB.disconnect();
 		System.out.println(this.getDescription().getName() + " v" + this.getDescription().getVersion()
 				+ " has been disabled!");
 	}

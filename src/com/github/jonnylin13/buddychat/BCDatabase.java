@@ -37,6 +37,15 @@ public class BCDatabase {
 		}
 	}
 	
+	public void disconnect() {
+		try {
+			statement.close();
+			c.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public Connection getConnection() {
 		return this.c;
 	}

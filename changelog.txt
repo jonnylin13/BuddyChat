@@ -5,3 +5,8 @@ some simple fixes
 - changed how selects next channel for when I add multiple channel support
 - fixed some bugs with re-adding and adding yourself
 - started a changelog :)
+0.2
+- remember to close the db connection!
+- fixed self-whispering
+- can only whisper to people who have added you
+- removed permissions because f dat

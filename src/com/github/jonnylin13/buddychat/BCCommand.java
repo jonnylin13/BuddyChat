@@ -51,19 +51,10 @@ public class BCCommand implements CommandExecutor {
 							p.sendMessage(ChatColor.RED + "I think you might've used the wrong arguments?");
 							return true;
 						}
-						if (!p.hasPermission("buddychat.add") && !p.hasPermission("buddychat.user")) {
-							p.sendMessage(ChatColor.RED + "You don't have the permissions to do this!");
-							return true;
-						}
 						String otherPlayer = args[1];
 						Player p2 = Bukkit.getPlayer(otherPlayer);
 						if (p2 == null) {
 							p.sendMessage(ChatColor.RED + "No such player on this server!");
-							return true;
-						}
-						if (p2.hasPermission("buddychat.mod") && !p.hasPermission("buddychat.mod")
-								&& !this.plugin.getCBuddyManager().getCPlayer(p2).getBuddies().contains(p.getUniqueId())) {
-							p.sendMessage(ChatColor.RED + "Can't add that person!");
 							return true;
 						}
 						if (p2.getUniqueId() == p.getUniqueId()) {
@@ -84,10 +75,6 @@ public class BCCommand implements CommandExecutor {
 					} else if (command.equalsIgnoreCase("remove")) {
 						if (args.length != 2) {
 							p.sendMessage(ChatColor.RED + "I think you might've used the wrong arguments?");
-							return true;
-						}
-						if (!p.hasPermission("buddychat.remove") && !p.hasPermission("buddychat.user")) {
-							p.sendMessage(ChatColor.RED + "Wrong permissions!");
 							return true;
 						}
 						String otherPlayer = args[1];
@@ -146,13 +133,17 @@ public class BCCommand implements CommandExecutor {
 				return true;
 			}
 			Player p = (Player) sender;
-			if (!p.hasPermission("buddychat.whisper") && !p.hasPermission("buddychat.user")) {
-				p.sendMessage(ChatColor.RED + "You don't have the permissions to do that!");
-				return true;
-			}
 			Player to = Bukkit.getPlayer(args[0]);
 			if (to == null) {
 				sender.sendMessage(ChatColor.RED + "Could not find that player!");
+				return true;
+			}
+			if (to.getUniqueId() == p.getUniqueId()) {
+				p.sendMessage(ChatColor.RED + "Please don't whisper to yourself anymore.");
+				return true;
+			}
+			if (!this.plugin.getCBuddyManager().getCPlayer(to).getBuddies().contains(p.getUniqueId())) {
+				p.sendMessage(ChatColor.RED + "Can't send that message, that person isn't friends with you!");
 				return true;
 			}
 			String message = parseMessage(args, 1);
@@ -166,10 +157,6 @@ public class BCCommand implements CommandExecutor {
 				return true;
 			}
 			Player from = (Player) sender;
-			if (!from.hasPermission("buddychat.whisper") && !from.hasPermission("buddychat.user")) {
-				from.sendMessage(ChatColor.RED + "You don't have the permissions to do that!");
-				return true;
-			}
 			BCBuddy cb = this.plugin.getCBuddyManager().getCPlayer(from);
 			if (cb.getLastWhispFrom() == null) {
 				from.sendMessage(ChatColor.RED + "You don't have anyone to reply to...");
@@ -185,19 +172,12 @@ public class BCCommand implements CommandExecutor {
 			this.plugin.getCCListener().sendMessage(from, message, to, "w");
 			this.plugin.getCBuddyManager().getCPlayer(to).setLastWhispFrom(from.getUniqueId());
 			return true;
-		} else if (label.equalsIgnoreCase("cc")) {
-			
+		} else if (label.equalsIgnoreCase("cc")) {			
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.RED + "Seriously now. You don't even have a channel...");
 				return true;
-			}
-			
+			}			
 			Player p = (Player) sender;
-			
-			if (!p.hasPermission("buddychat.cc") && !p.hasPermission("buddychat.user")) {
-				p.sendMessage(ChatColor.RED + "You can't do that!");
-				return true;
-			}
 			BCBuddy cb = this.plugin.getCBuddyManager().getCPlayer(p);
 			cb.setChannel(cb.getNextChannel());
 			return true;
