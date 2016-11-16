@@ -1,0 +1,7 @@
+0.1
+initial stuff
+0.1b
+some simple fixes
+- changed how selects next channel for when I add multiple channel support
+- fixed some bugs with re-adding and adding yourself
+- started a changelog :)

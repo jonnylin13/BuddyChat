@@ -1,0 +1,60 @@
+name: BuddyChat
+version: 0.1b
+main: com.github.jonnylin13.buddychat.BuddyChatPlugin
+author: jlin13
+commands:
+  bc:
+    description: -- BuddyChat by jlin13 --
+    usage: /bc help
+  reply:
+    description: Use this to reply to a message quickly
+    usage: /reply <message>
+  r:
+    description: Use this to reply to a message quickly
+    usage: /r <message>
+  whisper:
+    description: Use this to send a message
+    usage: /whisper <player> <message>
+  w:
+    description: Use this to send a message
+    usage: /w <player> <message>
+  cc:
+    description: Use this to change channels
+    usage: /cc
+permissions:
+  buddychat.*:
+    description: Gives access to everything BuddyChat
+    children:
+      buddychat.whisper: true
+      buddychat.reply: true
+      buddychat.add: true
+      buddychat.remove: true
+      buddychat.cc: true
+      buddychat.user: true
+      buddychat.mod: false
+      buddychat.admin: false
+    buddychat.whisper:
+      description: Allows you to whisper
+      default: true
+    buddychat.reply:
+      description: Allows you to reply
+      default: true
+    buddychat.add:
+      description: Allows you to add friends
+      default: true
+    buddychat.remove:
+      description: Allows you to remove friends
+      default: true
+    buddychat.cc:
+      description: Allows you to change channels
+      default: true
+    buddychat.user:
+      description: Gives you access to all user level BuddyChat commands
+      default: true
+    buddychat.mod:
+      description: Gives you access to all mod level BuddyChat commands
+      default: op
+    buddychat.admin:
+      description: Gives you access to all admin level BuddyChat commands
+      default: op
+      
