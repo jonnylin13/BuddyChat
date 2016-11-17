@@ -14,5 +14,8 @@ some simple fixes
 - changed event priority to highest to chat listener
 - changed string comparison from == to .equals() even though it worked anyways
 - fixed hilarious bug that basically meant nothing worked
-- changed /help to have pages
+- changed /bc help to have pages
 - added /bc mute <player>
+0.3
+- working mute command
+- reformatted /bc help

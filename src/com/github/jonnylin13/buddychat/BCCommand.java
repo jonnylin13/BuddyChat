@@ -14,10 +14,11 @@ public class BCCommand implements CommandExecutor {
 	public String[][] pages = {{"/bc list" + ChatColor.GRAY + " - Look at friends list",
 		"/bc add <friend> " + ChatColor.GRAY + " - To add a friend",
 		"/bc remove <friend>" + ChatColor.GRAY + " - Remove a friend",
-		"/w or /whisper <friend> <message>" + ChatColor.GRAY + " - Whisper a friend",
-		"/r or /reply <message> " + ChatColor.GRAY + " - To send a reply",
+		"/bc mute <player>" + ChatColor.GRAY + " - To mute a player.",
+		"/bc help <page>" + ChatColor.GRAY + " - For more help",
 		"/cc" + ChatColor.GRAY + " - To change channels"},
-			{"/bc mute <player>" + ChatColor.GRAY + " - To mute a player."}};
+			{"/r or /reply <message> " + ChatColor.GRAY + " - To send a reply",
+			"/w or /whisper <friend> <message>" + ChatColor.GRAY + " - Whisper a friend"}};
 
 	private BuddyChatPlugin plugin;
 	
@@ -127,9 +128,13 @@ public class BCCommand implements CommandExecutor {
 						return true;
 					} else if (command.equalsIgnoreCase("mute")) {
 						
-						Player p2 = Bukkit.getPlayer(args[0]);
-						if (p2 == null || !p2.isOnline()) {
+						Player p2 = Bukkit.getPlayer(args[1]);
+						if (p2 == null) {
 							p.sendMessage(ChatColor.RED + "Could not find that player!");
+							return true;
+						}
+						if (p2.getUniqueId() == p.getUniqueId()) {
+							p.sendMessage(ChatColor.RED + "You can't mute yourself!");
 							return true;
 						}
 						if (cPlayer.getMuted().contains(p2.getUniqueId())) {
@@ -139,6 +144,7 @@ public class BCCommand implements CommandExecutor {
 							p.sendMessage(ChatColor.GREEN + "Muted!");
 							cPlayer.mute(p2.getUniqueId());
 						}
+						return true;
 						
 					} else {
 						sender.sendMessage(ChatColor.RED + "BuddyChat command not recognized.");
