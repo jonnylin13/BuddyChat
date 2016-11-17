@@ -19,3 +19,8 @@ some simple fixes
 0.3
 - working mute command
 - reformatted /bc help
+0.3b
+- handled mute command when entering wrong number of arguments
+- removed redundant return methods for main plugin instance
+- added total page count to /bc help
+- fixed plugin.yml version

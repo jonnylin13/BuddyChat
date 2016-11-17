@@ -1,5 +1,5 @@
 name: BuddyChat
-version: 0.2
+version: 0.3b
 main: com.github.jonnylin13.buddychat.BuddyChatPlugin
 author: jlin13
 commands:

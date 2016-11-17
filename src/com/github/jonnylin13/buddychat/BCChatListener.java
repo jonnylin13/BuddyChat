@@ -57,9 +57,4 @@ public class BCChatListener implements Listener {
 			}
 		}
 	}
-	
-	public BuddyChatPlugin getPlugin() {
-		return this.plugin;
-	}
-
 }

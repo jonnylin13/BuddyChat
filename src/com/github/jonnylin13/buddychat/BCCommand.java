@@ -57,7 +57,7 @@ public class BCCommand implements CommandExecutor {
 							}
 						}
 						int index = page - 1;
-						p.sendMessage(ChatColor.GRAY + "-- BuddyChat Help (" + page + ") --");
+						p.sendMessage(ChatColor.GRAY + "-- BuddyChat Help (" + page + "/" + pages.length + ") --");
 						for (int i = 0; i < pages[index].length; i++) {
 							p.sendMessage(pages[index][i]);
 						}
@@ -128,6 +128,10 @@ public class BCCommand implements CommandExecutor {
 						return true;
 					} else if (command.equalsIgnoreCase("mute")) {
 						
+						if (args.length != 2) {
+							p.sendMessage(ChatColor.RED + "Wrong number of arguments.");
+							return true;
+						} 
 						Player p2 = Bukkit.getPlayer(args[1]);
 						if (p2 == null) {
 							p.sendMessage(ChatColor.RED + "Could not find that player!");
