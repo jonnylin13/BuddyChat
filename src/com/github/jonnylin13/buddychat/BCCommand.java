@@ -10,6 +10,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class BCCommand implements CommandExecutor {
+	
+	public String[][] pages = {{"/bc list" + ChatColor.GRAY + " - Look at friends list",
+		"/bc add <friend> " + ChatColor.GRAY + " - To add a friend",
+		"/bc remove <friend>" + ChatColor.GRAY + " - Remove a friend",
+		"/w or /whisper <friend> <message>" + ChatColor.GRAY + " - Whisper a friend",
+		"/r or /reply <message> " + ChatColor.GRAY + " - To send a reply",
+		"/cc" + ChatColor.GRAY + " - To change channels"},
+			{"/bc mute <player>" + ChatColor.GRAY + " - To mute a player."}};
 
 	private BuddyChatPlugin plugin;
 	
@@ -38,13 +46,21 @@ public class BCCommand implements CommandExecutor {
 					}
 					String command = args[0];
 					if (command.equalsIgnoreCase("help")) {
-						p.sendMessage(ChatColor.GRAY + "-- BuddyChat Help --");
-						p.sendMessage("/bc list" + ChatColor.GRAY + " - Look at friends list");
-						p.sendMessage("/bc add <friend> " + ChatColor.GRAY + " - To add a friend");
-						p.sendMessage("/bc remove <friend>" + ChatColor.GRAY + " - Remove a friend");
-						p.sendMessage("/w or /whisper <friend> <message>" + ChatColor.GRAY + " - Whisper a friend");
-						p.sendMessage("/r or /reply <message> " + ChatColor.GRAY + " - To send a reply");
-						p.sendMessage("/cc" + ChatColor.GRAY + " - To change channels");
+						int page = 1;
+						if (args.length == 2) {
+							try {
+								page = Integer.parseInt(args[1]);
+							} catch (Exception e) {
+								p.sendMessage(ChatColor.RED + "Was that a number?");
+								return true;
+							}
+						}
+						int index = page - 1;
+						p.sendMessage(ChatColor.GRAY + "-- BuddyChat Help (" + page + ") --");
+						for (int i = 0; i < pages[index].length; i++) {
+							p.sendMessage(pages[index][i]);
+						}
+						
 						return true;
 					} else if (command.equalsIgnoreCase("add")) {
 						if (args.length != 2) {
@@ -109,8 +125,23 @@ public class BCCommand implements CommandExecutor {
 							}
 						}
 						return true;
+					} else if (command.equalsIgnoreCase("mute")) {
+						
+						Player p2 = Bukkit.getPlayer(args[0]);
+						if (p2 == null || !p2.isOnline()) {
+							p.sendMessage(ChatColor.RED + "Could not find that player!");
+							return true;
+						}
+						if (cPlayer.getMuted().contains(p2.getUniqueId())) {
+							p.sendMessage(ChatColor.LIGHT_PURPLE + "Unmuted!");
+							cPlayer.unmute(p2.getUniqueId());
+						} else {
+							p.sendMessage(ChatColor.GREEN + "Muted!");
+							cPlayer.mute(p2.getUniqueId());
+						}
+						
 					} else {
-						sender.sendMessage(ChatColor.RED + "Buddy Chat command not recognized.");
+						sender.sendMessage(ChatColor.RED + "BuddyChat command not recognized.");
 						return true;
 					}
 				} catch (Exception e) {

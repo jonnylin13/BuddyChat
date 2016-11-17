@@ -19,6 +19,7 @@ public class BCBuddy {
 	private UUID lastWhisperedFrom;
 	private String name;
 	private ArrayList<UUID> buddies;
+	private ArrayList<UUID> muted;
 	private Channel channel;
 	
 	public BCBuddy (BuddyChatPlugin plugin, UUID playerUUID) {
@@ -27,6 +28,7 @@ public class BCBuddy {
 		this.name = this.getPlayer().getName();
 		this.plugin = plugin;
 		this.loadBuddies();
+		this.muted = new ArrayList<UUID>();
 		this.channel = Channel.GENERAL;
 	}
 	
@@ -86,6 +88,22 @@ public class BCBuddy {
 	public void setChannel(Channel channel) {
 		this.channel = channel;
 		this.getPlayer().sendMessage(ChatColor.GREEN + "You are now in channel: " + channel);
+	}
+	
+	public void unmute(UUID uuid) {
+		if (this.muted.contains(uuid)) {
+			this.muted.remove(uuid);
+		}
+	}
+	
+	public void mute(UUID uuid) {
+		if(!this.muted.contains(uuid)) {
+			this.muted.add(uuid);
+		}
+	}
+	
+	public ArrayList<UUID> getMuted() {
+		return this.muted;
 	}
 
 }

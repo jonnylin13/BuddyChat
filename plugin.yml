@@ -14,10 +14,10 @@ commands:
     usage: /r <message>
   whisper:
     description: Use this to send a message
-    usage: /whisper <player> <message>
+    usage: /whisper <buddy> <message>
   w:
     description: Use this to send a message
-    usage: /w <player> <message>
+    usage: /w <buddy> <message>
   cc:
     description: Use this to change channels
     usage: /cc

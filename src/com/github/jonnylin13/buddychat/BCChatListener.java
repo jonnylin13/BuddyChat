@@ -3,6 +3,7 @@ package com.github.jonnylin13.buddychat;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -18,21 +19,28 @@ public class BCChatListener implements Listener {
 	}
 	
 	public void sendMessage(Player from, String message, Player to, String type) {
-		if (type == "w") {
+		if (type.equals("w")) {
 			message = ChatColor.GRAY + message;
-		} else if (type == "b") {
+		} else if (type.equals("b")) {
 			message = ChatColor.AQUA + message;
 		}
-		System.out.println(ChatColor.WHITE + "<" + from.getDisplayName() + ChatColor.WHITE +  "> " + message);
 		to.sendMessage(ChatColor.WHITE + "<" + from.getDisplayName() + ChatColor.WHITE +  "> " + message);
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		event.setCancelled(true);
+		System.out.println("<" + event.getPlayer().getDisplayName() + "> " + event.getMessage());
+		sendMessage(event.getPlayer(), event.getMessage(), event.getPlayer(), "");
 		for(Player p : this.plugin.getServer().getOnlinePlayers()) {
 			BCBuddy from = this.plugin.getCBuddyManager().getCPlayer(event.getPlayer());
 			BCBuddy to = this.plugin.getCBuddyManager().getCPlayer(p);
+			if (from.getUUID() == to.getUUID()) {
+				continue;
+			}
+			if (to.getMuted().contains(from.getUUID())) {
+				continue;
+			}
 			if (from.getChannel() == Channel.GENERAL) {
 				if (to.getChannel() == Channel.GENERAL) {
 					sendMessage(event.getPlayer(), event.getMessage(), p, "");

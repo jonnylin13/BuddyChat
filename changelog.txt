@@ -10,3 +10,9 @@ some simple fixes
 - fixed self-whispering
 - can only whisper to people who have added you
 - removed permissions because f dat
+0.2b
+- changed event priority to highest to chat listener
+- changed string comparison from == to .equals() even though it worked anyways
+- fixed hilarious bug that basically meant nothing worked
+- changed /help to have pages
+- added /bc mute <player>
