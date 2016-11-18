@@ -14,7 +14,7 @@ public class BCCommand implements CommandExecutor {
 	public String[][] pages = {{"/bc list" + ChatColor.GRAY + " - Look at friends list",
 		"/bc add <friend> " + ChatColor.GRAY + " - To add a friend",
 		"/bc remove <friend>" + ChatColor.GRAY + " - Remove a friend",
-		"/bc mute <player>" + ChatColor.GRAY + " - To mute a player.",
+		"/bc mute <player>" + ChatColor.GRAY + " - To mute a player",
 		"/bc help <page>" + ChatColor.GRAY + " - For more help",
 		"/cc" + ChatColor.GRAY + " - To change channels"},
 			{"/r or /reply <message> " + ChatColor.GRAY + " - To send a reply",
@@ -64,6 +64,10 @@ public class BCCommand implements CommandExecutor {
 						
 						return true;
 					} else if (command.equalsIgnoreCase("add")) {
+						if (!this.plugin.getBuddiesEnabled()) {
+							sender.sendMessage(ChatColor.RED + "Buddies have been disabled!");
+							return true;
+						}
 						if (args.length != 2) {
 							p.sendMessage(ChatColor.RED + "I think you might've used the wrong arguments?");
 							return true;
@@ -74,7 +78,7 @@ public class BCCommand implements CommandExecutor {
 							p.sendMessage(ChatColor.RED + "No such player on this server!");
 							return true;
 						}
-						if (p2.getUniqueId() == p.getUniqueId()) {
+						if (p2.getUniqueId() == p.getUniqueId() && !this.plugin.getDebugEnabled()) {
 							p.sendMessage(ChatColor.RED + "You can't add yourself!");
 							return true;
 						}
@@ -83,13 +87,17 @@ public class BCCommand implements CommandExecutor {
 							return true;
 						}
 						cPlayer.addBuddy(p2.getUniqueId());
-						p.sendMessage(ChatColor.GRAY + "Friend request sent!");
+						p.sendMessage(ChatColor.GREEN + "Friend request sent!");
 						p2.sendMessage(p.getName() 
 								+ ChatColor.AQUA + " just added you as a friend! Type" + ChatColor.WHITE +" /bc add " 
 								+ p.getName() 
 								+ ChatColor.AQUA + " to add him back!");
 						return true;
 					} else if (command.equalsIgnoreCase("remove")) {
+						if (!this.plugin.getBuddiesEnabled()) {
+							sender.sendMessage(ChatColor.RED + "Buddies have been disabled!");
+							return true;
+						}
 						if (args.length != 2) {
 							p.sendMessage(ChatColor.RED + "I think you might've used the wrong arguments?");
 							return true;
@@ -108,7 +116,7 @@ public class BCCommand implements CommandExecutor {
 								} else {
 									this.plugin.getCDatabase().removeBuddy(p.getUniqueId(), p2.getUniqueId());
 								}
-								p.sendMessage(ChatColor.GRAY + "Removed.");
+								p.sendMessage(ChatColor.GREEN + "Removed!");
 								return true;
 							}
 						}
@@ -116,6 +124,10 @@ public class BCCommand implements CommandExecutor {
 						return true;
 						
 					} else if (command.equalsIgnoreCase("list")) {
+						if (!this.plugin.getBuddiesEnabled()) {
+							sender.sendMessage(ChatColor.RED + "Buddies have been disabled!");
+							return true;
+						}
 						p.sendMessage(ChatColor.GRAY + "-- Buddy List --");
 						for (UUID buddy : cPlayer.getBuddies()) {
 							Player p2 = Bukkit.getPlayer(buddy);
@@ -137,15 +149,11 @@ public class BCCommand implements CommandExecutor {
 							p.sendMessage(ChatColor.RED + "Could not find that player!");
 							return true;
 						}
-						if (p2.getUniqueId() == p.getUniqueId()) {
-							p.sendMessage(ChatColor.RED + "You can't mute yourself!");
-							return true;
-						}
 						if (cPlayer.getMuted().contains(p2.getUniqueId())) {
 							p.sendMessage(ChatColor.LIGHT_PURPLE + "Unmuted!");
 							cPlayer.unmute(p2.getUniqueId());
 						} else {
-							p.sendMessage(ChatColor.GREEN + "Muted!");
+							p.sendMessage(ChatColor.LIGHT_PURPLE + "Muted!");
 							cPlayer.mute(p2.getUniqueId());
 						}
 						return true;
@@ -179,11 +187,11 @@ public class BCCommand implements CommandExecutor {
 				sender.sendMessage(ChatColor.RED + "Could not find that player!");
 				return true;
 			}
-			if (to.getUniqueId() == p.getUniqueId()) {
+			if (to.getUniqueId() == p.getUniqueId() && !this.plugin.getDebugEnabled()) {
 				p.sendMessage(ChatColor.RED + "Please don't whisper to yourself anymore.");
 				return true;
 			}
-			if (!this.plugin.getCBuddyManager().getCPlayer(to).getBuddies().contains(p.getUniqueId())) {
+			if (this.plugin.getBuddiesEnabled() && !this.plugin.getCBuddyManager().getCPlayer(to).getBuddies().contains(p.getUniqueId())) {
 				p.sendMessage(ChatColor.RED + "Can't send that message, that person isn't friends with you!");
 				return true;
 			}
@@ -217,7 +225,11 @@ public class BCCommand implements CommandExecutor {
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.RED + "Seriously now. You don't even have a channel...");
 				return true;
-			}			
+			}
+			if (!this.plugin.getBuddiesEnabled()) {
+				sender.sendMessage(ChatColor.RED + "Buddies have been disabled!");
+				return true;
+			}
 			Player p = (Player) sender;
 			BCBuddy cb = this.plugin.getCBuddyManager().getCPlayer(p);
 			cb.setChannel(cb.getNextChannel());

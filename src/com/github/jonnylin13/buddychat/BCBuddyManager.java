@@ -28,11 +28,16 @@ public class BCBuddyManager implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player p = event.getPlayer();
-		BCBuddy cb = new BCBuddy(this.plugin, p.getUniqueId());
-		if (!cPlayers.contains(cb)) {
-			cPlayers.add(cb);
+		BCBuddy bcb = new BCBuddy(this.plugin, p.getUniqueId());
+		/*for (Player p2 : p.getServer().getOnlinePlayers()) {
+			if (this.getCPlayer(p2).getBuddies().contains(bcb.getUUID())) {
+				p2.sendMessage(p.getDisplayName() + " has joined the game!");
+			}
+		}*/
+		if (!cPlayers.contains(bcb)) {
+			cPlayers.add(bcb);
 			if (this.plugin.getDebugEnabled()) {
-				System.out.println(cb.getUUID() + " joined, cPlayer created.");
+				System.out.println(bcb.getUUID() + " joined, cPlayer created.");
 			}
 		}
 	}

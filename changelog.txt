@@ -24,3 +24,11 @@ some simple fixes
 - removed redundant return methods for main plugin instance
 - added total page count to /bc help
 - fixed plugin.yml version
+0.4
+- config actually does something now
+	- set BuddiesEnabled for buddy functionality
+	- can still use /w and /r without buddies
+- debug mode now lets you add yourself, mostly for myself for testing
+- you can mute yourself (all muting is effectively "client-side" (server-side but acts like client-side))
+- fixed typo in /bc help
+- add join messages?

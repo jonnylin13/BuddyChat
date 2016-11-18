@@ -31,7 +31,9 @@ public class BCChatListener implements Listener {
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		event.setCancelled(true);
 		System.out.println("<" + event.getPlayer().getDisplayName() + "> " + event.getMessage());
-		sendMessage(event.getPlayer(), event.getMessage(), event.getPlayer(), "");
+		if (!this.plugin.getCBuddyManager().getCPlayer(event.getPlayer()).getMuted().contains(event.getPlayer().getUniqueId())) {
+			sendMessage(event.getPlayer(), event.getMessage(), event.getPlayer(), "");
+		}
 		for(Player p : this.plugin.getServer().getOnlinePlayers()) {
 			BCBuddy from = this.plugin.getCBuddyManager().getCPlayer(event.getPlayer());
 			BCBuddy to = this.plugin.getCBuddyManager().getCPlayer(p);
