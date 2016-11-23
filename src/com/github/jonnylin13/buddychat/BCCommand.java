@@ -196,7 +196,6 @@ public class BCCommand implements CommandExecutor {
 				return true;
 			}
 			String message = parseMessage(args, 1);
-			this.plugin.getCCListener().sendMessage(p, message, p, "w");
 			this.plugin.getCCListener().sendMessage(p, message, to, "w");
 			this.plugin.getCBuddyManager().getCPlayer(to).setLastWhispFrom(p.getUniqueId());
 			return true;
@@ -217,7 +216,6 @@ public class BCCommand implements CommandExecutor {
 				return true;
 			}
 			String message = parseMessage(args, 0);
-			this.plugin.getCCListener().sendMessage(from, message, from, "w");
 			this.plugin.getCCListener().sendMessage(from, message, to, "w");
 			this.plugin.getCBuddyManager().getCPlayer(to).setLastWhispFrom(from.getUniqueId());
 			return true;

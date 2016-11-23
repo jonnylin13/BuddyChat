@@ -21,6 +21,11 @@ public class BCChatListener implements Listener {
 	public void sendMessage(Player from, String message, Player to, String type) {
 		if (type.equals("w")) {
 			message = ChatColor.GRAY + message;
+			from.sendMessage(ChatColor.WHITE + "<" + from.getDisplayName() + "->" + to.getDisplayName() + ChatColor.WHITE + "> " 
+					+ message);
+			to.sendMessage(ChatColor.WHITE + "<" + from.getDisplayName() + "->" + to.getDisplayName() + ChatColor.WHITE + "> " 
+					+ message);
+			return;
 		} else if (type.equals("b")) {
 			message = ChatColor.AQUA + message;
 		}

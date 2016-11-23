@@ -32,3 +32,6 @@ some simple fixes
 - you can mute yourself (all muting is effectively "client-side" (server-side but acts like client-side))
 - fixed typo in /bc help
 - add join messages?
+0.4b
+- made /w and /r messages more explicit in direction from -> to
+- changed to release!
